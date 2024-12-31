@@ -3,6 +3,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import mongoose from 'mongoose'
+import { handleGenericError } from '../helpers/handleGenericError'
 
 type TErrorResponse = {
   success: boolean
@@ -45,7 +46,6 @@ export const globalErrorHandler = (
   //! Wroking - Alterantive way to handle duplicate key error
 
   // else if (err.code && err.code === 11000) {
-  //   // Handling duplicate key error
   //   const keyValue = err.keyValue || err.error?.keyValue
   //   const duplicateField = Object.keys(keyValue || {}).join(', ')
   //   const duplicateValue = Object.values(keyValue || {}).join(', ')
@@ -58,12 +58,7 @@ export const globalErrorHandler = (
 
 
   else if (err instanceof Error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      name: err.name,
-      message: `Any Error: ${err.message}`,
-      error: err,
-    })
+    handleGenericError(err, res);
   }
 
 
