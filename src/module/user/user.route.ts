@@ -23,6 +23,8 @@ userRouter.post(
 userRouter.get('/', userController.getUser)
 userRouter.get('/:userId', userController.getSingleUser)
 userRouter.put('/:userId', userController.updateUser)
+
+// authorization 
 userRouter.delete('/:userId', userController.deleteUser)
 
 export default userRouter

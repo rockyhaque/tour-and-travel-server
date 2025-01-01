@@ -1,4 +1,4 @@
-import { z } from 'zod' 
+import { z } from 'zod'
 
 const userValidationSchema = z.object({
   name: z
@@ -13,10 +13,15 @@ const userValidationSchema = z.object({
       required_error: 'Age must be provided with number type',
     })
     .int()
-    .positive(),
+    .positive()
+    .optional(),
 
   email: z.string({
     required_error: 'Email must be provided with string type',
+  }),
+
+  password: z.string({
+    required_error: 'Password must be provided with string type',
   }),
 
   photo: z
@@ -27,5 +32,5 @@ const userValidationSchema = z.object({
 })
 
 export const userValidation = {
-    userValidationSchema
+  userValidationSchema,
 }
