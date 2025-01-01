@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { userController } from './user.controller'
 import { userValidation } from './user.validation'
+import auth from '../../middlewares/auth'
 
 const userRouter = Router()
 
+//* for user create: /create-user
+
 userRouter.post(
-  '/create-user',
+  '/create-admin',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsedBody = await userValidation.userValidationSchema.parseAsync(
@@ -20,11 +23,11 @@ userRouter.post(
   },
   userController.createUser
 )
-userRouter.get('/', userController.getUser)
 userRouter.get('/:userId', userController.getSingleUser)
 userRouter.put('/:userId', userController.updateUser)
+userRouter.delete('/:userId', userController.deleteUser)
 
 // authorization 
-userRouter.delete('/:userId', userController.deleteUser)
+userRouter.get('/', auth("admin", "user"), userController.getUser)
 
 export default userRouter
