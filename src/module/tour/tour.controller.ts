@@ -1,9 +1,19 @@
 import { Request, Response } from 'express'
 import { tourService } from './tour.service'
+import { sendImageCloudinary } from '../../helpers/fileUploadHelpers';
 
 const createTour = async (req: Request, res: Response) => {
+  const body = JSON.parse(req.body.data)
   try {
-    const body = req.body
+    if(req.file){
+      const imageName = "random";
+      const path = req.file.path
+      const {secure_url} = await sendImageCloudinary(imageName, path)
+      // replacing the cover img with deployed url
+      body.coverImage = secure_url
+    }
+    
+    // console.log(body)
     const result = await tourService.createTour(body)
 
     res.send({
