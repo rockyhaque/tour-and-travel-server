@@ -12,6 +12,22 @@ authRouter.post(
   AuthController.register
 )
 
-authRouter.post('/login', validateRequest(AuthValidation.loginValidationSchema),AuthController.login)
+authRouter.post(
+  '/login',
+  validateRequest(AuthValidation.loginValidationSchema),
+  AuthController.login
+)
+
+authRouter.post(
+  '/forget-password',
+  validateRequest(AuthValidation.forgetPasswordSchema),
+  AuthController.forgetPassword
+)
+
+authRouter.post(
+  '/reset-password',
+  validateRequest(AuthValidation.resetPasswordSchema),
+  AuthController.resetPassword
+)
 
 export default authRouter
